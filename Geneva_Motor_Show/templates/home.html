@@ -1,0 +1,63 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
+
+
+<div class="d-flex flex-wrap px-5 pt-3 align-items-center">
+
+  <div class="col-6">
+    <h1>Welcome to Mercedes-Benz S-Class Coupe</h1>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus dolorum delectus necessitatibus temporibus adipisci, harum enim unde, suscipit in ipsum provident hic minima molestias reiciendis nihil veniam aut doloribus, ab quidem sit cum at nemo nulla autem! Dolor quaerat ea voluptatem ullam, consequuntur quisquam ut iste. Vitae exercitationem ipsum blanditiis. Nihil rem in quo magni quam sapiente ad ipsa voluptatum saepe quos temporibus, at iste? Eum saepe eos error ea recusandae, deserunt at quidem odio harum inventore. Necessitatibus eos sapiente architecto optio aut esse, facilis, voluptatibus assumenda ut exercitationem nobis molestias, quisquam nam quia odio ipsa? Voluptatem voluptas distinctio eaque.</p>
+  </div>
+  <div class="col-6 d-flex justify-content-center">
+  <img src="{% static 'sports_car.jpg' %}" style="width: 600px;" />
+  </div>
+</div>
+  <div class="row justify-content-center align-items-center">
+        {% comment %} <h5>All Categories :</h5> {% endcomment %}
+        {% for cat in category %}
+            <div class="col-lg-auto">
+                <a href="{% url 'category_wise_post' cat.slug %}" class="btn btn-info btn-sm m-2 text-dark">
+                    {{cat.name}}
+                </a>
+            </div>
+        {% endfor %}
+  </div>
+
+<div class="container">
+
+
+
+<div class="d-flex flex-wrap p-3">
+
+
+  <div class="col-10 p-3">
+    <h4>{{data | length}} results found</h4>
+    <div class="d-flex flex-wrap pt-5">
+      {% for car in data %}
+      <div class="col-sm-3">
+        <div class="card m-2">
+          <div class="card-body">
+            <img src="{{car.image.url}}" class="card-img-top" alt="..."/>
+            <h1 class="card-title">{{car.title}}</h1>
+            {% comment %} <h1 class="card-title"><a href="{% url 'detail_car' car.id %}" class="text-decoration-none text-dark">{{car.title}}</a></h1> {% endcomment %}
+            <p class="card-text btn btn-info btn-sm m-2">Price: ${{car.price}}</p>
+            <p>Brand : {{car.brand}}</p>
+            <p>
+              Category : {% for cat in post.category.all %}
+              <button class="btn btn-warning btn-sm m-2" disabled>
+                  {{cat.name}}
+              </button>
+              {% endfor %}
+          </p>
+            <a href="{% url 'detail_car' car.id %}" class="btn btn-warning btn-sm m-2 text-dark">View details</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+</div>
+{% endblock %}
