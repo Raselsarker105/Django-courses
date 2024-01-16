@@ -7,24 +7,23 @@
         <th scope="col">id</th>
         <th scope="col">Book_Name</th>
         <th scope="col">Price</th>
-        <th scope="col">Balance_after_borrowing</th>
         <th scope="col">Borrow_Date</th>
         <th scope="col">Return_Date</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
-      {% for b in borrow %}
+      {% for b in  borrowing_history %}
       <tr>
         <td>{{ b.id }}</td>
         <td>{{ b.book.title }}</td>
         <td>{{ b.book.borrowing_price }}</td>
-        <td>{{ b.book.returned_amount }}</td>
+        <td>{{ b.BorrowingHistory.returned_amount }}</td>
         <td>{{ b.borrowing_date }}</td>
         <td>{{ b.returned_date }}</td>
         <td>{{ b.book.action }}</td>
-        <td>
-            <a href="{% url 'return' b.id %}" class="btn btn-warning">Return_book</a>
+        <td action="{{ b.book.action }}">
+            <a href="{% url 'return_book' id=b.id %}" class="btn btn-warning">Return_book</a>
         </td>
       </tr>
       {% endfor %}

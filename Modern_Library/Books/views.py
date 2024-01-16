@@ -12,6 +12,7 @@ from django.views.generic import DetailView
 from .models import Book, BorrowingHistory, BookReview
 from .forms import CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from accounts.models import UserLibraryAccount
 
 
 class DetailBookView(DetailView):
@@ -50,39 +51,33 @@ class BorrowBookView(LoginRequiredMixin, DetailView):
         book = Book.objects.get(id=id)
         borrow = BorrowingHistory.objects.filter(user=request.user)
 
-        if borrow and request.user.account.balance >= book.borrowing_price:
-            request.user.account.balance -= book.borrowing_price 
-            request.user.account.save()
-
-            # Borrowing history
-            borrowing_history = BorrowingHistory.objects.filter(user=request.user, book = book, returned_amount=book.borrowing_price)
-            borrowing_history.save()
+        if  self.request.user.account.balance >= book.borrowing_price:
+            self.request.user.account.balance -= book.borrowing_price 
+            self.request.user.account.save()
+            
+            BorrowingHistory.objects.create(user=request.user, book=book)
+            
             messages.success(request, 'successfully! borrowing the book')
         else:
             messages.error(request, 'Insufficient balance to borrow the book.')
-
         return render(request, 'accounts/profile.html', {'borrowing_history' : borrow})
 
 
 
 @method_decorator(login_required, name='dispatch')
 class ReturnBookView(LoginRequiredMixin, View):
+    # pk_url_kwarg = 'id'
     template_name = 'profile.html'
     
     def get(self, request, id, **kwargs):
         book = get_object_or_404(Book, id=id)
-        borrowing_history = BorrowingHistory.objects.filter(user=request.user, book = book, returned_amount=book.borrowing_price)
-        borrowing_history.save()
-       
-        if borrowing_history:
-            request.user.account.balance += borrowing_history.amount_paid
-            request.user.account.save()
-
-            borrowing_history.returned_date = timezone.now()
-            borrowing_history.save()
+        borrowing_history, created = BorrowingHistory.objects.get_or_create(user=request.user, book=book)
+        
+        if created:
+            self.request.user.account.balance += book.borrowing_price
+            self.request.user.account.save()
 
             messages.success(request, 'Book returned successfully!')
         else:
             messages.error(request, 'No active borrowing record found for the book.')
-
         return redirect('profile')
