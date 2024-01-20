@@ -1,0 +1,132 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<div
+  class="mx-auto flex flex-col md:flex-row lg:flex-col items-center w-full mt-3"
+>
+  <div class="w-full lg:w-1/2 lg:py-6 text-center">
+    <img class="rounded-2xl" src="{% static 'logo.png' %}" />
+  </div>
+  <div
+    class="flex flex-col w-full lg:w-1/2 justify-center items-start pt-12 pb-24 px-6 bg-white rounded-xl bg-opacity-70 mx-3"
+  >
+    <h1 class="font-bold text-4xl my-4">Welcome to My Portfolio</h1>
+    <p class="leading-normal mb-4">
+      This is a My Portfolio where you can deposit money, Borrow Book, return
+      Book. You can also create an account, login, logout. Lorem ipsum dolor sit
+      amet consectetur adipisicing elit. Sed nemo quaerat quo dicta, adipisci
+      eum fuga ratione id numquam eius veniam placeat voluptatum, itaque tempora
+      molestias vel, blanditiis fugiat ipsam!
+    </p>
+    <div class="pt-3 p-3">
+      <h1 class="w-full">Skills:</h1>
+      <div class="flex flex-wrap gap-2 mt-4">
+        <a
+          href="#"
+          class="bg-blue-900 text-white rounded hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent"
+          >Python</a
+        >
+        <a
+          href="#"
+          class="bg-blue-900 text-white rounded hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent"
+          >Django</a
+        >
+        <a
+          href="#"
+          class="bg-blue-900 text-white rounded hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent"
+          >Bootstrap</a
+        >
+        <a
+          href="#"
+          class="bg-blue-900 text-white rounded hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent"
+          >Tailwind</a
+        >
+        <a
+          href="#"
+          class="bg-blue-900 text-white rounded hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent"
+          >C/C++</a
+        >
+        <a
+          href="#"
+          class="bg-blue-900 text-white rounded hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent"
+          >Data-structure</a
+        >
+        <a
+          href="#"
+          class="bg-blue-900 text-white rounded hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent"
+          >Python</a
+        >
+        <a
+          href="#"
+          class="bg-blue-900 text-white rounded hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent"
+          >Algorithm</a
+        >
+        <a
+          href="#"
+          class="bg-blue-900 text-white rounded hover:bg-white hover:text-blue-900 hover:border-blue-900 shadow hover:shadow-lg py-2 px-4 border border-gray-900 hover:border-transparent"
+          >Javascrip</a
+        >
+        
+      </div>
+    </div>
+
+    <div class="container d-flex flex-wrap pt-3 p-3 align-items-center">
+      <ul class="container d-flex flex-wrap pt-3 p-3 align-items-center">
+        <li class="nav-item mx-3">
+          <a class="nav-link btn btn-dark text-white" href="#">Live Site</a>
+        </li>
+        <li class="nav-item mx-3">
+          <a
+            class="nav-link btn btn-dark text-white"
+            href="https://github.com/Raselsarker2023"
+            >Github</a
+          >
+        </li>
+        <li class="nav-item mx-3">
+          <i class="fab fa-linkedin"></i>
+          <a
+            class="nav-link btn btn-dark text-white"
+            href="https://www.linkedin.com/in/rasel-sarker-405160227/"
+            >Linkedin</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="d-flex flex-wrap p-3">
+    <div class="col-10 p-3">
+      <div class="d-flex flex-wrap pt-5">
+        {% for car in data %}
+        <div class="col-sm-3">
+          <div class="card m-2">
+            <div class="col-lg-5">
+              <h4 class="card-title">Project Name: {{ car.title }}</h4>
+              <p class="card-text">{{ car.description }}</p>
+              <p class="card-text">{{ car.technologies_used }}</p>
+              <p class="card-text">{{ car.project_url }}</p>
+              <p class="card-text">{{ car.category }}</p>
+              <p>
+                Category: {% for cat in car.category.all %}
+                <button class="btn btn-warning btn-sm m-2" disabled>
+                  {{ cat.name }}
+                </button>
+                {% endfor %}
+              </p>
+              {% if request.user.is_authenticated %}
+              <a
+                href="{% url 'detail_project' car.id %}"
+                class="btn btn-warning btn-sm text-dark"
+                >Details Project</a
+              >
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

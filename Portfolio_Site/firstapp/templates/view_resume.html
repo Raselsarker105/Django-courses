@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Your Resume/CV</h1>
+  {% if resume.file %}
+    <p><a href="{{ resume.file.url }}" target="_blank">Download Resume</a></p>
+  {% else %}
+    <p>No resume uploaded yet.</p>
+  {% endif %}
+{% endblock %}
+
+
+{% comment %} {% extends 'base.html' %}
+{%  load crispy_forms_tags %}
+{% block content %}
+
+<form style="width:50% ; margin : auto" method="post">
+    <h1>Upload Resume/CV</h1>
+    {% csrf_token %}
+    {{form | crispy}}
+    <button class="btn btn-primary" type="submit">Upload</button>
+</form>
+
+{% endblock %} {% endcomment %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <h1 class="text-3xl font-bold mb-4">Blog List</h1>
+    <ul class="list-disc pl-6">
+        {% for post in blog_posts %}
+            <li class="mb-2">
+                <a href="{% url 'blog_detail' post.id %}" class="text-blue-500 hover:underline">{{ post.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

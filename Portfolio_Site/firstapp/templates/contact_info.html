@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mx-auto mt-8">
+    <h1 class="text-2xl font-bold mb-4">Contact Information</h1>
+    {% if contact_info %}
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <p class="text-lg font-semibold mb-2">Email: {{ contact_info.email }}</p>
+        <p class="text-lg font-semibold mb-2">Phone: {{ contact_info.phone }}</p>
+        <p class="text-lg font-semibold mb-2">Social Media: {{ contact_info.social_media }}</p>
+      </div>
+    {% else %}
+      <p>Contact information not available.</p>
+    {% endif %}
+  </div>
+{% endblock %}

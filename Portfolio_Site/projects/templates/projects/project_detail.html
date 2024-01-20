@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-5">
+        <img src="{{ project.image.url }}" class="card-img-top" alt="..."/>      
+    </div>
+    <div class="col-lg-5">
+      <h1 class="card-title">Project name: {{ project.title }}</h1>
+      <p class="card-text">Description: {{ project.description }}</p>
+      <img src="{{ project.screenshots.url }}" alt="Project screenshots">
+      <p class="card-text">Technologies Used: {{ project.technologies_used }}</p>
+      <p class="card-text">Project URL: <a href="{{ project.project_url }}" target="_blank">{{ project.project_url }}</a>Visit Project</p>
+      <p>
+          Category : {% for cat in project.category.all %}
+          <button class="btn btn-warning btn-sm m-2" disabled>
+              {{ cat.name }}
+          </button>
+          {% endfor %}
+      </p>
+    </div>
+</div>
+
+<div class="card m-2">
+    <h5 class="p-3">Total Reviews : {{ comments | length }}</h5>
+    {% for comment in comments %}
+    <div class="card-body border m-2">
+      <p><b>{{ comment.name }}</b> {{ comment.created_on }}</p>
+      <p>{{ comment.body }}</p>
+    </div>
+    {% endfor %}
+</div>
+<div class="card m-2">
+    <div class="card-body">
+      <form method="post">
+        <h1>Add Reviews</h1>
+        {% csrf_token %}
+        {{ comment_form | crispy }}
+        <button class="btn btn-warning">Submit</button>
+      </form>
+    </div>
+</div>
+{% endblock %}
